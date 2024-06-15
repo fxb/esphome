@@ -57,6 +57,9 @@ StartContinuousAction = voice_assistant_ns.class_(
 StopAction = voice_assistant_ns.class_(
     "StopAction", automation.Action, cg.Parented.template(VoiceAssistant)
 )
+NewConversationAction = voice_assistant_ns.class_(
+    "NewConversationAction", automation.Action, cg.Parented.template(VoiceAssistant)
+)
 IsRunningCondition = voice_assistant_ns.class_(
     "IsRunningCondition", automation.Condition, cg.Parented.template(VoiceAssistant)
 )
@@ -304,6 +307,19 @@ async def voice_assistant_listen_to_code(config, action_id, template_arg, args):
 
 @register_action("voice_assistant.stop", StopAction, VOICE_ASSISTANT_ACTION_SCHEMA)
 async def voice_assistant_stop_to_code(config, action_id, template_arg, args):
+    var = cg.new_Pvariable(action_id, template_arg)
+    await cg.register_parented(var, config[CONF_ID])
+    return var
+
+
+@register_action(
+    "voice_assistant.new_conversation",
+    NewConversationAction,
+    VOICE_ASSISTANT_ACTION_SCHEMA,
+)
+async def voice_assistant_new_conversation_to_code(
+    config, action_id, template_arg, args
+):
     var = cg.new_Pvariable(action_id, template_arg)
     await cg.register_parented(var, config[CONF_ID])
     return var

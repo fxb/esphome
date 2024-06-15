@@ -611,6 +611,8 @@ void VoiceAssistant::request_stop() {
   }
 }
 
+void VoiceAssistant::request_new_conversation() { this->conversation_id_ = ""; }
+
 void VoiceAssistant::signal_stop_() {
   memset(&this->dest_addr_, 0, sizeof(this->dest_addr_));
   if (this->api_client_ == nullptr) {
